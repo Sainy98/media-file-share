@@ -6,7 +6,7 @@ const rangeValue = document.getElementById('rangeValue');
 const spaceInfo = document.getElementById('spaceInfo');
 
 // const backendLink = 'http://localhost:3000';
-const backendLink = 'https://mediashare-si7a.onrender.com';
+const backendLink = 'https://mediashare-5t23.onrender.com';
 const MAX_SPACE_MB = 100; // Max space in MB
 
 function updateSpaceInfo() {
