@@ -175,6 +175,7 @@ function deleteFile(index) {
             displayAllFileDetails(savedDetails);
             updateSpaceInfo();
             document.getElementById('delete').innerHTML='Deleting...'
+            window.location.reload();
         } else {
             console.error('Error deleting file:', response.statusText);
         }
