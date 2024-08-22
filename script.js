@@ -1,7 +1,7 @@
 const form = document.getElementById('uploadForm');
 const fileInput = document.getElementById('mediaInput');
 const fileList = document.getElementById('fileList');
-const SelectedfileList = document.getElementById('SelectedFiles');
+const SelectedfileList = document.getElementById('selectedFiles');
 const rangeInput = document.getElementById('rangeInput');
 const rangeValue = document.getElementById('rangeValue');
 const spaceInfo = document.getElementById('spaceInfo');
@@ -47,19 +47,15 @@ function selectedFile() {
 
 document.getElementById("submitBtn").addEventListener('click', function(event) {
     event.preventDefault();
-
+    SelectedfileList.style.display = 'none';
     const files = fileInput.files;
     fileList.innerHTML = " ";
-    SelectedfileList.style.display = 'none';
 
     if (files.length === 0) {
         alert('📂 Oops! It looks like you forgot to select a file. Please choose a file to upload and try again! 😊');
         return; // Exit if no files are selected
     }
     document.getElementById("submitBtn").innerHTML = "Processing..."
-    // setTimeout(function() {
-    //      document.getElementById("submitBtn").innerHTML = "Submit"
-    // }, 3000);
 
     uploadMsg.style.display="block";
     let newFilesTotalSize = 0;
