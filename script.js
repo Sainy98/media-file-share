@@ -7,6 +7,7 @@ const spaceInfo = document.getElementById('spaceInfo');
 const uploadMsg = document.getElementById('uploadingStatus');
 const failedMsg = document.getElementById('failedStatus');
 
+
 // const backendLink = 'http://localhost:3000';
 const backendLink = 'https://mediashare-5t23.onrender.com';
 const MAX_SPACE_MB = 100; // Max space in MB
@@ -45,6 +46,7 @@ function selectedFile() {
 
 document.getElementById("submitBtn").addEventListener('click', function(event) {
     event.preventDefault();
+
     const files = fileInput.files;
     fileList.innerHTML = " ";
 
@@ -52,9 +54,9 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
         alert('📂 Oops! It looks like you forgot to select a file. Please choose a file to upload and try again! 😊');
         return; // Exit if no files are selected
     }
-    document.getElementById("submitBtn").textContent = "Processing..."
+    document.getElementById("submitBtn").innerHTML = "Processing..."
     setTimeout(function() {
-        formButton.textContent = 'Submit';
+         document.getElementById("submitBtn").innerHTML = "Submit"
     }, 10000);
 
     uploadMsg.style.display="block";
@@ -87,15 +89,15 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
     })
     .then(data => {
         if (data.fileLinks && data.fileLinks.length > 0) {
-           
-           
             const expiryTime = parseInt(data.expiryTime, 10);
             const expiryDate = new Date(Date.now() + expiryTime * 60 * 60 * 1000).toLocaleString();
 
             let existingFileDetails = JSON.parse(localStorage.getItem('uploadedFileDetails')) || [];
 
             const newFileDetails = data.fileLinks.map((fileLink, index) => {
-                alert("file uploaded successfully")
+                 alert("file uploaded successfully");
+                 document.getElementById("submitBtn").innerHTML = "Submit";
+               
                 return {
                     fileLink,
                     fileName: files[index].name,
@@ -131,6 +133,7 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
 
 function displayAllFileDetails(detailsArray) {
     let linkContainer = document.getElementById('linkContainer');
+    uploadMsg.style.display="none";
     if (!linkContainer) {
         linkContainer = document.createElement('div');
         linkContainer.id = 'linkContainer';
@@ -193,3 +196,5 @@ window.addEventListener('load', function() {
         updateSpaceInfo();
     }
 });
+
+
