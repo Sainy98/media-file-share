@@ -1,6 +1,7 @@
 const form = document.getElementById('uploadForm');
 const fileInput = document.getElementById('mediaInput');
 const fileList = document.getElementById('fileList');
+const SelectedfileList = document.getElementById('SelectedFiles');
 const rangeInput = document.getElementById('rangeInput');
 const rangeValue = document.getElementById('rangeValue');
 const spaceInfo = document.getElementById('spaceInfo');
@@ -49,6 +50,7 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
 
     const files = fileInput.files;
     fileList.innerHTML = " ";
+    SelectedfileList.style.display = 'none';
 
     if (files.length === 0) {
         alert('📂 Oops! It looks like you forgot to select a file. Please choose a file to upload and try again! 😊');
@@ -151,7 +153,7 @@ function displayAllFileDetails(detailsArray) {
             <p>🔗: <a href="${details.fileLink}" target="_blank">${details.fileLink}</a></p>
             <p>💾: ${(details.size / (1024*1024)).toFixed(2)} MB</p>
             <p>🚮: ${details.expiryDate}</p>
-            <button onclick="deleteFile(${index})" id="delete">Delete</button>
+            <button onclick="deleteFile(${index}, this)" id="delete">Delete</button>
             <button onclick="shareFile('${details.fileLink}')">Share</button>
             <hr>
         `;
@@ -159,11 +161,12 @@ function displayAllFileDetails(detailsArray) {
     });
 }
 
-function deleteFile(index) {
+function deleteFile(index, btnElement) {
     const savedDetails = JSON.parse(localStorage.getItem('uploadedFileDetails'));
     const fileDetails = savedDetails[index];
     const fileUrl = fileDetails.fileLink;
     const filename = fileUrl.split('/').pop();
+    btnElement.innerHTML='Deleting...'
 
     fetch(`${backendLink}/files/${filename}`, {
         method: 'DELETE'
@@ -174,8 +177,7 @@ function deleteFile(index) {
             localStorage.setItem('uploadedFileDetails', JSON.stringify(savedDetails));
             displayAllFileDetails(savedDetails);
             updateSpaceInfo();
-            document.getElementById('delete').innerHTML='Deleting...'
-            window.location.reload();
+          
         } else {
             console.error('Error deleting file:', response.statusText);
         }
