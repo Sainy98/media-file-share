@@ -57,7 +57,7 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
     document.getElementById("submitBtn").innerHTML = "Processing..."
     setTimeout(function() {
          document.getElementById("submitBtn").innerHTML = "Submit"
-    }, 10000);
+    }, 3000);
 
     uploadMsg.style.display="block";
     let newFilesTotalSize = 0;
