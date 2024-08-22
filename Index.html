@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Files Share</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <header>
+        <h1>Media Files Share</h1>
+    </header>
+   <section>
+
+    <form id="uploadForm" class="upload-form" enctype="multipart/form-data" >
+        <h2>Choose files to upload</h2>
+        <label for="mediaInput" class="upload_btn">
+            <span class="material-symbols-outlined" > Upload </span>
+        </label>
+        <input type="file" id="mediaInput" accept=".pdf, .mp4, .jpg, .jpeg, .png .mp3" multiple required oninput="selectedFile()"> </input>
+        <span>Supported file format: .pdf, .mp4, .jpg, .jpeg, .png </span>
+
+        <div id="selectedFiles">
+
+            <ul id="fileList"> </ul>
+        </div>
+        <input id="rangeInput" type="range" min="1" max="24" value="1" oninput="expiryHour()"><span class="rangeValue" id="rangeValue">Set link expiry hours</span>
+        <!-- <label for="password">Set password (optional)</label>
+        <input type="password" name="password" id="password" placeholder="Enter Password"> -->
+        <span class="line"></span>
+        <button class="upload_btn " id="submitBtn" type="button">Submit</button>
+        <p id="spaceInfo">Available space: 100 MB</p>   
+    </form>
+    <br>
+    <div class="uploadingStatusContainer" id="uploadingStatus">
+        <img src="./Assets/uploading.gif" class="uploadingStatus" alt="uploading..." srcset="">
+        <br>
+        <span class="uploadingSpan">Almost done...</span>
+    </div>
+     <div class="failedStatusContainer" id="failedStatus">
+        <img src="./Assets/fail.gif" class="failedStatus" alt="error..." srcset="">
+        <br>
+        <span class="failedSpan">Server is busy...</span>
+    </div>
+
+
+    <div class="linkHistory" id="linkContainer">
+       
+    </div>
+
+    <div class="emailBox" style="display: none;">
+        <label for="email">Send this magic link via email</label>
+        <input type="email" name="email" id="email" placeholder="Enter email">
+        <button>Send</button>
+    </div>
+
+</section>
+
+<section class="tutorial-container">
+    <h2>How to use?</h2>
+    <ul>
+        <li>Step 1: Upload file</li>
+        <li>Step 2: Get the unique sharable link</li>
+        <li>Step 3: Share the link with anyone</li>
+    </ul>
+</section>
+<script src="script.js"></script>
+</body>
+</html>
