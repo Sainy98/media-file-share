@@ -55,9 +55,9 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
         return; // Exit if no files are selected
     }
     document.getElementById("submitBtn").innerHTML = "Processing..."
-    setTimeout(function() {
-         document.getElementById("submitBtn").innerHTML = "Submit"
-    }, 3000);
+    // setTimeout(function() {
+    //      document.getElementById("submitBtn").innerHTML = "Submit"
+    // }, 3000);
 
     uploadMsg.style.display="block";
     let newFilesTotalSize = 0;
@@ -95,8 +95,11 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
             let existingFileDetails = JSON.parse(localStorage.getItem('uploadedFileDetails')) || [];
 
             const newFileDetails = data.fileLinks.map((fileLink, index) => {
-                 alert("file uploaded successfully");
-                 document.getElementById("submitBtn").innerHTML = "Submit";
+                //  alert("file uploaded successfully");
+                 document.getElementById("submitBtn").innerHTML = "File Uploaded Successfully";
+                 setTimeout(function() {
+                    document.getElementById("submitBtn").innerHTML = "Submit"
+                     }, 3000);
                
                 return {
                     fileLink,
