@@ -11,7 +11,7 @@ const failedMsg = document.getElementById('failedStatus');
 
 // const backendLink = 'http://localhost:3000';
 const backendLink = 'https://mediashare-5t23.onrender.com';
-const MAX_SPACE_MB = 100; // Max space in MB
+const MAX_SPACE_MB = 200; // Max space in MB
 
 function updateSpaceInfo() {
     const totalSizeMB = getTotalSize() / (1024 * 1024);
