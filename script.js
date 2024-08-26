@@ -8,7 +8,6 @@ const spaceInfo = document.getElementById('spaceInfo');
 const uploadMsg = document.getElementById('uploadingStatus');
 const failedMsg = document.getElementById('failedStatus');
 
-
 // const backendLink = 'http://localhost:3000';
 const backendLink = 'https://mediashare-5t23.onrender.com';
 const MAX_SPACE_MB = 200; // Max space in MB
