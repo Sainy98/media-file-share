@@ -45,7 +45,7 @@ function selectedFile() {
     }
 }
 
-document.getElementById("submitBtn").addEventListener('click', function(event) {
+document.getElementById("submitBtn").addEventListener('click', function (event) {
     event.preventDefault();
     SelectedfileList.style.display = 'none';
     const files = fileInput.files;
@@ -57,7 +57,7 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
     }
     document.getElementById("submitBtn").innerHTML = "Processing..."
 
-    uploadMsg.style.display="block";
+    uploadMsg.style.display = "block";
     let newFilesTotalSize = 0;
 
     for (let i = 0; i < files.length; i++) {
@@ -65,7 +65,7 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
     }
 
     if (newFilesTotalSize + getTotalSize() > MAX_SPACE_MB * 1024 * 1024) {
-        alert('🚀 It seems like you’re trying to upload more than your available space allows! 📂🚫 Please free up some space by deleting old files 🗑️✨ and then try again. 😊');        uploadMsg.style.display="none";
+        alert('🚀 It seems like you’re trying to upload more than your available space allows! 📂🚫 Please free up some space by deleting old files 🗑️✨ and then try again. 😊'); uploadMsg.style.display = "none";
         return;
     }
 
@@ -79,62 +79,63 @@ document.getElementById("submitBtn").addEventListener('click', function(event) {
         method: 'POST',
         body: formData
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.fileLinks && data.fileLinks.length > 0) {
-            const expiryTime = parseInt(data.expiryTime, 10);
-            const expiryDate = new Date(Date.now() + expiryTime * 60 * 60 * 1000).toLocaleString();
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.fileLinks && data.fileLinks.length > 0) {
+                const expiryTime = parseInt(data.expiryTime, 10);
+                const expiryDate = new Date(Date.now() + expiryTime * 60 * 60 * 1000).toLocaleString();
 
-            let existingFileDetails = JSON.parse(localStorage.getItem('uploadedFileDetails')) || [];
+                let existingFileDetails = JSON.parse(localStorage.getItem('uploadedFileDetails')) || [];
 
-            const newFileDetails = data.fileLinks.map((fileLink, index) => {
-                //  alert("file uploaded successfully");
-                 document.getElementById("submitBtn").innerHTML = "File Uploaded Successfully";
-                 setTimeout(function() {
-                    document.getElementById("submitBtn").innerHTML = "Submit"
-                     }, 3000);
-               
-                return {
-                    fileLink,
-                    fileName: files[index].name,
-                    expiryDate,
-                    size: files[index].size
-                };
-            });
+                const newFileDetails = data.fileLinks.map((fileLink, index) => {
+                    //  alert("file uploaded successfully");
+                    document.getElementById("submitBtn").innerHTML = "File Uploaded Successfully";
+                    setTimeout(function () {
+                        document.getElementById("submitBtn").innerHTML = "Submit"
+                    }, 3000);
 
-            const allFileDetails = [...newFileDetails, ...existingFileDetails ];
+                    return {
+                        fileLink,
+                        fileName: files[index].name,
+                        expiryDate,
+                        size: files[index].size
+                    };
+                });
 
-            localStorage.setItem('uploadedFileDetails', JSON.stringify(allFileDetails));
+                const allFileDetails = [...newFileDetails, ...existingFileDetails];
 
-            displayAllFileDetails(allFileDetails);
-            updateSpaceInfo();
+                localStorage.setItem('uploadedFileDetails', JSON.stringify(allFileDetails));
 
-            setTimeout(() => {
-                localStorage.removeItem('uploadedFileDetails');
-                document.getElementById('linkContainer').innerHTML = '';
+                displayAllFileDetails(allFileDetails);
                 updateSpaceInfo();
-            }, expiryTime * 60 * 60 * 1000);
-        } else {
-            console.log('No shareable link received');
-        }
-    })
-    .catch(error =>{
-     console.error('Error uploading files:', error);
-     alert('⚠️ Oops! Something went wrong while uploading your files. Please try again later🙏');
-     uploadMsg.style.display = 'none'; 
-    
-});
-        
+
+                setTimeout(() => {
+                    localStorage.removeItem('uploadedFileDetails');
+                    document.getElementById('linkContainer').innerHTML = '';
+                    updateSpaceInfo();
+                }, expiryTime * 60 * 60 * 1000);
+            } else {
+                console.log('No shareable link received');
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading files:', error);
+            alert('⚠️ Oops! Something went wrong while uploading your files. Please try again later🙏');
+            uploadMsg.style.display = 'none';
+            document.getElementById("submitBtn").innerHTML = "Submit"
+
+        });
+
 });
 
 function displayAllFileDetails(detailsArray) {
     let linkContainer = document.getElementById('linkContainer');
-    uploadMsg.style.display="none";
+    uploadMsg.style.display = "none";
     if (!linkContainer) {
         linkContainer = document.createElement('div');
         linkContainer.id = 'linkContainer';
@@ -147,7 +148,7 @@ function displayAllFileDetails(detailsArray) {
         linkItem.innerHTML = `
             <p>📁: ${details.fileName}</p>
             <p>🔗: <a href="${details.fileLink}" target="_blank">${details.fileLink}</a></p>
-            <p>💾: ${(details.size / (1024*1024)).toFixed(2)} MB</p>
+            <p>💾: ${(details.size / (1024 * 1024)).toFixed(2)} MB</p>
             <p>🚮: ${details.expiryDate}</p>
             <button onclick="deleteFile(${index}, this)" id="delete">Delete</button>
             <button onclick="shareFile('${details.fileLink}')">Share</button>
@@ -162,23 +163,23 @@ function deleteFile(index, btnElement) {
     const fileDetails = savedDetails[index];
     const fileUrl = fileDetails.fileLink;
     const filename = fileUrl.split('/').pop();
-    btnElement.innerHTML='Deleting...'
+    btnElement.innerHTML = 'Deleting...'
 
     fetch(`${backendLink}/files/${filename}`, {
         method: 'DELETE'
     })
-    .then(response => {
-        if (response.ok) {
-            savedDetails.splice(index, 1);
-            localStorage.setItem('uploadedFileDetails', JSON.stringify(savedDetails));
-            displayAllFileDetails(savedDetails);
-            updateSpaceInfo();
-          
-        } else {
-            console.error('Error deleting file:', response.statusText);
-        }
-    })
-    .catch(error => console.error('Error deleting file:', error));
+        .then(response => {
+            if (response.ok) {
+                savedDetails.splice(index, 1);
+                localStorage.setItem('uploadedFileDetails', JSON.stringify(savedDetails));
+                displayAllFileDetails(savedDetails);
+                updateSpaceInfo();
+
+            } else {
+                console.error('Error deleting file:', response.statusText);
+            }
+        })
+        .catch(error => console.error('Error deleting file:', error));
 }
 
 function shareFile(fileLink) {
@@ -189,8 +190,32 @@ function shareFile(fileLink) {
     });
 }
 
+function clearExpiredFiles() {
+    const savedDetails = JSON.parse(localStorage.getItem('uploadedFileDetails')) || [];
+    const currentTime = Date.now();
+    let hasChanges = false;
+
+    const updatedDetails = savedDetails.filter(details => {
+        const expiryTime = new Date(details.expiryDate).getTime();
+        if (expiryTime > currentTime) {
+            return true; // Keep the file if it hasn't expired
+        } else {
+            hasChanges = true;
+            return false; // Remove the file if it has expired
+        }
+    });
+
+    if (hasChanges) {
+        localStorage.setItem('uploadedFileDetails', JSON.stringify(updatedDetails));
+        displayAllFileDetails(updatedDetails);
+        updateSpaceInfo();
+    }
+}
+
+setInterval(clearExpiredFiles, 60000);
+
 // Load the file details from localStorage when the page loads
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     const savedDetails = localStorage.getItem('uploadedFileDetails');
     if (savedDetails) {
         const detailsArray = JSON.parse(savedDetails);
