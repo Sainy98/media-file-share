@@ -39,7 +39,7 @@ function selectedFile() {
 
 document.getElementById("submitBtn").addEventListener('click', function (event) {
     event.preventDefault();
-    SelectedfileList.style.display = 'none';
+   
     const files = fileInput.files;
 
     if (files.length === 0) {
@@ -86,7 +86,7 @@ document.getElementById("submitBtn").addEventListener('click', function (event) 
             alert('⚠️ Error uploading files. Try again later.');
             uploadMsg.style.display = 'none';
         })
-        .finally(() => document.getElementById("submitBtn").innerHTML = "Submit");
+        .finally(() => document.getElementById("submitBtn").innerHTML = "Submit" );
 });
 
 function displayAllFileDetails(detailsArray) {
