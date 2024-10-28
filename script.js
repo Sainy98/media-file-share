@@ -7,8 +7,8 @@ const rangeValue = document.getElementById('rangeValue');
 const spaceInfo = document.getElementById('spaceInfo');
 const uploadMsg = document.getElementById('uploadingStatus');
 
-const backendLink = 'http://localhost:3000';
-// const backendLink = 'https://mediashare-5t23.onrender.com';
+// const backendLink = 'http://localhost:3000';
+const backendLink = 'https://mediashare-5t23.onrender.com';
 const MAX_SPACE_MB = 200;
 
 function updateSpaceInfo() {
