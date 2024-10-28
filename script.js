@@ -86,7 +86,12 @@ document.getElementById("submitBtn").addEventListener('click', function (event) 
             alert('⚠️ Error uploading files. Try again later.');
             uploadMsg.style.display = 'none';
         })
-        .finally(() => document.getElementById("submitBtn").innerHTML = "Submit" );
+        .finally(() => {
+        document.getElementById("submitBtn").innerHTML = "Submit"
+          SelectedfileList.style.display="none"
+          alert('Your file successfully added ✔');
+});
+          
 });
 
 function displayAllFileDetails(detailsArray) {
